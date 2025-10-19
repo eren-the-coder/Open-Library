@@ -9,11 +9,29 @@ interface PostProps {
   type: any;
   hasPreview: boolean;
   hasDownload: boolean;
+  fileUrl?: string;
 }
 
-const Post = ({ title, description, date, type, hasPreview, hasDownload }: PostProps) => {
+const Post = ({ title, description, date, type, hasPreview, hasDownload, fileUrl }: PostProps) => {
+  // const handleDownload = () => {
+  //   console.log('Téléchargement du document:', title);
+  // };
+
   const handleDownload = () => {
-    console.log('Téléchargement du document:', title);
+    if (!fileUrl) {
+      alert("Aucun fichier disponible pour ce post.");
+      return;
+    }
+
+    const downloadUrl = `http://127.0.0.1/backend/api/download.php?file=${encodeURIComponent(fileUrl.split('/').pop() || '')}`;
+
+    // Ouvre le lien directement dans le navigateur (téléchargement auto)
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const getTypeColor = (type: string) => {

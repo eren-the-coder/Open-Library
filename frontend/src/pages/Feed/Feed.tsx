@@ -15,6 +15,7 @@ interface Resource {
   validated: number;
   views: number;
   downloads: number;
+  fileUrl?: string;
 }
 
 const Feed = () => {
@@ -54,6 +55,7 @@ const Feed = () => {
             type= {post.type}
             hasDownload={post.type !== "comm_text"}
             hasPreview={post.type !== "comm_text"}
+            fileUrl={post.fileUrl}
           />
         ))}
       </div>

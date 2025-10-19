@@ -47,10 +47,17 @@
 	// =======================================
 	// Validation des champs requis
 	// =======================================
-	if (empty($name) || empty($type) || empty($teachingUnit)) {
+	if (empty($name) || empty($type)) {
 		echo json_encode(["success" => false, "error" => "Champs requis manquants"]);
 		exit;
 	}
+
+	// teachingUnit n'est requis que pour les types académiques
+	if (empty($teachingUnit) && !in_array($type, ['comm_doc', 'comm_text'])) {
+		echo json_encode(["success" => false, "error" => "Champs requis manquants (teachingUnit)"]);
+		exit;
+	}
+
 
 	// =======================================
 	// Upload du fichier si nécessaire

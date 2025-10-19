@@ -96,7 +96,10 @@ const AddPostForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.teachingUnit) {
+    if (
+      !formData.teachingUnit &&
+      !["comm_doc", "comm_text"].includes(formData.type)
+    ) {
       alert("Veuillez sélectionner une unité d’enseignement.");
       return;
     }
@@ -113,6 +116,8 @@ const AddPostForm = () => {
     form.append("teachingUnit", formData.teachingUnit);
     form.append("authorId", "user1");
     if (formData.file) form.append("file", formData.file);
+
+    console.log("FormData envoyée :", Object.fromEntries(form.entries()));
 
     try {
       const response = await fetch("http://127.0.0.1/backend/api/addPost.php", {
@@ -138,16 +143,19 @@ const AddPostForm = () => {
   const showFileField =
     formData.type &&
     !["", "comm_text"].includes(formData.type);
+  const showTeachingUnitField =
+    formData.type &&
+    !["comm_doc", "comm_text"].includes(formData.type);
 
   return (
     <section className={styles.addPostForm}>
       <h2 className={styles.title}>Ajouter une ressource</h2>
       <form method="POST" encType="multipart/form-data" className={styles.form} onSubmit={handleSubmit}>
 
-        {/* Type de document */}
+        {/* Type de post */}
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="doc-type">
-            Type de document
+            Type de post
           </label>
           <select
             className={styles.input}
@@ -168,31 +176,33 @@ const AddPostForm = () => {
         </div>
 
         {/* Unité d'enseignement */}
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="teaching-unit">
-            Unité d’enseignement
-          </label>
-          <select
-            className={styles.input}
-            id="teaching-unit"
-            name="teachingUnit"
-            value={formData.teachingUnit}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Sélectionnez une UE</option>
-            {teachingUnits.map((ue) => (
-              <option key={ue.code} value={ue.code}>
-                {ue.code} — {ue.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {showTeachingUnitField && (
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="teaching-unit">
+              Unité d’enseignement
+            </label>
+            <select
+              className={styles.input}
+              id="teaching-unit"
+              name="teachingUnit"
+              value={formData.teachingUnit}
+              onChange={handleInputChange}
+              required={formData.type !== "comm_doc" && formData.type !== "comm_text"}
+            >
+              <option value="">Sélectionnez une UE</option>
+              {teachingUnits.map((ue) => (
+                <option key={ue.code} value={ue.code}>
+                  {ue.code} — {ue.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        {/* Nom du document */}
+        {/* Nom du post */}
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="doc-name">
-            Nom du document
+            Nom du post
           </label>
           <input
             className={styles.input}
@@ -201,7 +211,7 @@ const AddPostForm = () => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            placeholder="Ex: Cours d'algorithmique"
+            placeholder="Ex: Cours d'algorithmique, Communiqué x, etc"
             required
           />
         </div>

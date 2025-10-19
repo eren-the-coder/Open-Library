@@ -114,12 +114,6 @@ const AddPostForm = () => {
     form.append("authorId", "user1");
     if (formData.file) form.append("file", formData.file);
 
-    console.log("FormData entries:");
-for (let pair of form.entries()) {
-  console.log(pair[0], " : " , pair[1]);
-}
-
-
     try {
       const response = await fetch("http://127.0.0.1/backend/api/addPost.php", {
         method: "POST",
@@ -131,8 +125,7 @@ for (let pair of form.entries()) {
 
       if (data.success) {
         alert("Post ajouté avec succès !");
-
-        // handleReset();
+        handleReset();
       } else {
         alert("Erreur : " + data.error);
       }

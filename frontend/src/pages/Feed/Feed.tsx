@@ -44,7 +44,14 @@ const Feed = () => {
       });
   }, []);
 
-  if (loading) return <LoadingIndicator message='Chargement des ressources...' />;
+  if (loading) return (
+    <LoadingIndicator
+      message='Chargement des ressources...'
+      containerStyle={{
+        flex: 2,
+      }}
+    />
+  );
 
   const filteredPosts = selectedUnit === "Tous" 
   ? resources 

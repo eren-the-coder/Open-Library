@@ -49,7 +49,14 @@ const AddPostForm = () => {
     fetchUnits();
   }, []);
 
-  if (loading) return <LoadingIndicator message='Chargement...' />;
+  if (loading) return (
+    <LoadingIndicator
+      message='Chargement des ressources...'
+      containerStyle={{
+        flex: 2,
+      }}
+    />
+  );
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

@@ -1,6 +1,7 @@
 import styles from './Post.module.css';
 import { FaDownload } from 'react-icons/fa';
 import { HiMiniCalendarDateRange } from 'react-icons/hi2';
+import previewImg from '../../assets/pdf-illustration.png';
 
 interface PostProps {
   title: string;
@@ -61,8 +62,19 @@ const Post = ({ title, description, date, type, hasPreview, hasDownload, fileUrl
   return (
     <article className={styles.post}>
       {hasPreview && (
-        <div className={styles.preview}>Aperçu PDF</div>
+        <div className={styles.preview}>
+          <img
+            src={previewImg}
+            alt='Aperçu du document'
+            style={{
+              objectFit: "contain",
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        </div>
       )}
+      
       <div className={styles.typeBadge}>
         <span className={`${styles.type} ${getTypeColor(type)}`}>
           {getTypeName(type)}

@@ -3,6 +3,7 @@ import styles from './TeachingUnits.module.css';
 import { BsArrowRightShort } from 'react-icons/bs';
 import { useTeachingUnit } from "../../context/TeachingUnitContext";
 import { useNavigate } from "react-router-dom";
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 
 interface Unit {
   id: number;
@@ -36,7 +37,7 @@ const TeachingUnits = () => {
     fetchUnits();
   }, []);
 
-  if (loading) return <p>Chargement des unités...</p>;
+  if (loading) return <LoadingIndicator message='Chargement des UE...' />;
 
 
   const handleUnitClick = (unit: Unit | "Tous") => {

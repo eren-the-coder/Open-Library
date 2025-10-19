@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from './TeachingUnits.module.css';
 import { BsArrowRightShort } from 'react-icons/bs';
 import { useTeachingUnit } from "../../context/TeachingUnitContext";
+import { useNavigate } from "react-router-dom";
 
 interface Unit {
   id: number;
@@ -14,6 +15,7 @@ const TeachingUnits = () => {
   const [units, setUnits] = useState<Unit[]>([]);
   const [loading, setLoading] = useState(true);
   const { setSelectedUnit } = useTeachingUnit();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUnits = async () => {
@@ -44,6 +46,7 @@ const TeachingUnits = () => {
       setSelectedUnit(unit.code);
     }
     console.log('Unité sélectionnée:', unit);
+    navigate("/");
   };
 
   return (

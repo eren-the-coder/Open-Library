@@ -23,7 +23,7 @@ const Feed = () => {
 
   useEffect(() => {
     // Remplacer l'URL si ton serveur PHP est sur un autre port ou domaine
-    fetch("http://127.0.0.1:8000/api/getPosts.php")
+    fetch("http://127.0.0.1/backend/api/getPosts.php")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

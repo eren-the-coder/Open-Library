@@ -32,13 +32,25 @@ const AddPostForm = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === "type" ? { file: null } : {}), // reset file si le type change
-    }));
-    if (name === "type") setFileName("");
-  };
+
+    if (name === "type") {
+      // Reset complet si type change
+      setFormData({
+        name: "",
+        description: "",
+        type: value,
+        file: null,
+        teachingUnit: "",
+      });
+      setFileName("");
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };  
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -81,27 +93,55 @@ const AddPostForm = () => {
     setFileName("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.teachingUnit) {
       alert("Veuillez sélectionner une unité d’enseignement.");
       return;
     }
-    
-    if (
-      formData.type !== "comm_text" &&
-      (!formData.file || fileName.trim() === "")
-    ) {
+
+    if (formData.type !== "comm_text" && !formData.file) {
       alert("Veuillez sélectionner un fichier avant de soumettre.");
       return;
     }
 
-    console.log("Données du formulaire :", formData);
-    handleReset();
+    const form = new FormData();
+    form.append("name", formData.name);
+    form.append("description", formData.description);
+    form.append("type", formData.type);
+    form.append("teachingUnit", formData.teachingUnit);
+    form.append("authorId", "user1");
+    if (formData.file) form.append("file", formData.file);
+
+    console.log("FormData entries:");
+for (let pair of form.entries()) {
+  console.log(pair[0], " : " , pair[1]);
+}
+
+
+    try {
+      const response = await fetch("http://127.0.0.1/backend/api/addPost.php", {
+        method: "POST",
+        body: form,
+      });
+
+      const data = await response.json();
+      console.log("Réponse complète du serveur:", data);
+
+      if (data.success) {
+        alert("Post ajouté avec succès !");
+
+        // handleReset();
+      } else {
+        alert("Erreur : " + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors de l'ajout du post.");
+    }
   };
 
-  // const isTextOnly = formData.type === "comm_text";
   const showFileField =
     formData.type &&
     !["", "comm_text"].includes(formData.type);
@@ -109,7 +149,7 @@ const AddPostForm = () => {
   return (
     <section className={styles.addPostForm}>
       <h2 className={styles.title}>Ajouter une ressource</h2>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form method="POST" encType="multipart/form-data" className={styles.form} onSubmit={handleSubmit}>
 
         {/* Type de document */}
         <div className={styles.formGroup}>

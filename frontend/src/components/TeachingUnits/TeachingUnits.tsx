@@ -14,7 +14,7 @@ interface Unit {
 const TeachingUnits = () => {
   const [units, setUnits] = useState<Unit[]>([]);
   const [loading, setLoading] = useState(true);
-  const { setSelectedUnit } = useTeachingUnit();
+  const { selectedUnit, setSelectedUnit } = useTeachingUnit();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,7 +54,9 @@ const TeachingUnits = () => {
       <h2 className={styles.title}>Unités d'enseignement</h2>
       <div className={styles.list}>
         <div 
-          className={styles.unitRow}
+          className={`${styles.unitRow}
+            ${"Tous" === selectedUnit ? styles.unitRowActive : ''}
+          `}
           onClick={() => handleUnitClick("Tous")}
         >
           <div><span className={styles.dot}>•</span>Tous</div>
@@ -63,7 +65,9 @@ const TeachingUnits = () => {
         {units.map((unit) => (
           <div 
             key={unit.id}
-            className={styles.unitRow}
+            className={`${styles.unitRow}
+              ${unit.code === selectedUnit ? styles.unitRowActive : ''}
+            `}
             onClick={() => handleUnitClick(unit)}
           >
             <div><span className={styles.dot}>•</span>{unit.code} - {unit.name}</div>

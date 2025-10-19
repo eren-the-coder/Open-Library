@@ -1,6 +1,7 @@
 import Post from '../../components/Post/Post';
 import styles from './Feed.module.css';
 import { useState, useEffect } from 'react';
+import { useTeachingUnit } from "../../context/TeachingUnitContext";
 
 interface Resource {
   id: number;
@@ -21,6 +22,7 @@ interface Resource {
 const Feed = () => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
+  const { selectedUnit } = useTeachingUnit();
 
   useEffect(() => {
     // Remplacer l'URL si ton serveur PHP est sur un autre port ou domaine
@@ -42,12 +44,16 @@ const Feed = () => {
 
   if (loading) return <p>Chargement...</p>;
 
+  const filteredPosts = selectedUnit === "Tous" 
+  ? resources 
+  : resources.filter(post => post.teachingUnit === selectedUnit);
+
   return (
     <section className={styles.feed}>
       <h1 className={styles.title}>Derniers posts</h1>
       <div className={styles.postsContainer}>
-      {resources.length === 0 && <p>Aucune ressource pour l’instant.</p>}
-        {resources.map(post => (
+      {filteredPosts.length === 0 && <p>Aucune ressource pour l’instant.</p>}
+        {filteredPosts.map(post => (
           <Post key={post.id}
             title={post.name}
             description={post.description}

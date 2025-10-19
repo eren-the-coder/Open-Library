@@ -6,6 +6,7 @@ import RootLayout from "./pages/RootLayout/RootLayout";
 import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { TeachingUnitProvider } from "./context/TeachingUnitContext";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,9 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return <TeachingUnitProvider>
+    <RouterProvider router={router} />
+  </TeachingUnitProvider>;
 }
 
 export default App;

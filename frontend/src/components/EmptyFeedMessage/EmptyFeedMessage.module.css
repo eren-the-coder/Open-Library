@@ -1,0 +1,19 @@
+.emptyMessage {
+  text-align: center;
+  padding: 2rem;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  color: #64748b;
+  margin: 1rem 0;
+}
+
+.emptyMessage p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.unitName {
+  color: #4f46e5; /* violet primaire */
+  font-weight: 600;
+}

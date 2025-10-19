@@ -2,6 +2,7 @@ import Post from '../../components/Post/Post';
 import styles from './Feed.module.css';
 import { useState, useEffect } from 'react';
 import { useTeachingUnit } from "../../context/TeachingUnitContext";
+import EmptyFeedMessage from '../../components/EmptyFeedMessage/EmptyFeedMessage';
 
 interface Resource {
   id: number;
@@ -51,8 +52,8 @@ const Feed = () => {
   return (
     <section className={styles.feed}>
       <h1 className={styles.title}>Derniers posts</h1>
+      {filteredPosts.length === 0 && <EmptyFeedMessage />}
       <div className={styles.postsContainer}>
-      {filteredPosts.length === 0 && <p>Aucune ressource pour l’instant.</p>}
         {filteredPosts.map(post => (
           <Post key={post.id}
             title={post.name}

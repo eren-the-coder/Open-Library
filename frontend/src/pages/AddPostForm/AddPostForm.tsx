@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./AddPostForm.module.css";
+import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 interface FormData {
   name: string;
@@ -7,6 +8,13 @@ interface FormData {
   type: string;
   file: File | null;
   teachingUnit: string;
+}
+
+interface Unit {
+  id: number;
+  code: string;
+  name: string;
+  semester: number;
 }
 
 const AddPostForm = () => {
@@ -19,15 +27,29 @@ const AddPostForm = () => {
   });
   const [fileName, setFileName] = useState("");
 
+  const [teachingUnits, setTeachingUnits] = useState<Unit[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const teachingUnits = [
-    { code: "INF111", name: "Algorithmique" },
-    { code: "INF131", name: "Programmation C" },
-    { code: "INF141", name: "Architecture des ordinateurs" },
-    { code: "INF151", name: "Bases de données" },
-    { code: "MAT121", name: "Mathématiques discrètes" },
-    { code: "PHY161", name: "Électronique" },
-  ];
+  useEffect(() => {
+    const fetchUnits = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1/backend/api/getTeachingUnits.php");
+        const data = await res.json();
+        if (data.success) {
+          setTeachingUnits(data.units);
+        } else {
+          console.error("Erreur backend :", data.error);
+        }
+      } catch (err) {
+        console.error("Erreur fetch :", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUnits();
+  }, []);
+
+  if (loading) return <LoadingIndicator message='Chargement...' />;
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { TeachingUnitProvider } from "./context/TeachingUnitContext";
+import About from "./pages/About/About";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Feed /> },
       { path: "contribute", element: <AddPostForm /> },
+      { path: "about", element: <About /> },
     ],
   },
   {

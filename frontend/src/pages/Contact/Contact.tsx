@@ -1,4 +1,6 @@
 import styles from "./Contact.module.css";
+import { FaWhatsapp } from 'react-icons/fa6';
+import { HiMail } from 'react-icons/hi';
 
 const Contact = () => {
   return (
@@ -13,7 +15,8 @@ const Contact = () => {
 
         <ul className={styles.list}>
           <li>
-            💬 <strong>WhatsApp :</strong>{" "}
+            <FaWhatsapp size={25} color="#0f0" />
+            <strong>WhatsApp :</strong>{" "}
             <a
               href="https://wa.me/237680582926"
               target="_blank"
@@ -24,7 +27,8 @@ const Contact = () => {
             </a>
           </li>
           <li>
-            📧 <strong>Email :</strong>{" "}
+            <HiMail size={25} color="#f00" />            
+            <strong>Email :</strong>{" "}
             <a
               href="mailto:jeanpc568@gmail.com"
               className={styles.link}

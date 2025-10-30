@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <p>&copy; Mangone Messi 2025 - Tous droits réservés</p>
+      <p>&copy; Mangone Messi 2025. Tous droits réservés.</p>
       <div className={styles.links}>
         <NavLink
           className={({ isActive }) => 

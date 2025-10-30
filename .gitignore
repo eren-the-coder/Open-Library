@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignorer les fichiers sensibles
+backend/api/.env.php
+*.env.production

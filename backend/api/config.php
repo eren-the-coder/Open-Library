@@ -1,8 +1,13 @@
 <?php
-  $host = "localhost";
-  $user = "root";
-  $pass = ""; // XAMPP par défaut n’a pas de mot de passe root
-  $dbname = "openlibrary";
+  // $host = "localhost";
+  // $user = "root";
+  // $pass = ""; // XAMPP par défaut n’a pas de mot de passe root
+  // $dbname = "openlibrary";
+
+  $host = $config['host'];
+  $user = $config['user'];
+  $pass = $config['pass'];
+  $dbname = $config['dbname'];
 
   $conn = new mysqli($host, $user, $pass, $dbname);
 

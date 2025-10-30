@@ -150,8 +150,7 @@ const AddPostForm = () => {
     console.log("FormData envoyée :", Object.fromEntries(form.entries()));
 
     try {
-      const response = await fetch("https://openlibrary.free.nf/api/addPost.php", {
-      // const response = await fetch("http://127.0.0.1/backend/api/addPost.php", {
+      const response = await fetch(`${API_URL}/addPost.php`, {
         method: "POST",
         body: form,
       });

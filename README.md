@@ -37,7 +37,8 @@ Voici un aperçu visuel de **OpenLibrary** :
 <p>💻 <b>Desktop</b></p>
 </div>
 
-<!-- <div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
+<!--
+<div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
 <img src="./frontend/previews/tablet.png" alt="Preview Tablet" style="width: 100%; border-radius: 10px;">
 <p>📗 <b>Tablette</b></p>
 </div>
@@ -45,7 +46,8 @@ Voici un aperçu visuel de **OpenLibrary** :
 <div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
 <img src="./frontend/previews/mobile.png" alt="Preview Mobile" style="width: 100%; border-radius: 10px;">
 <p>📱 <b>Mobile</b></p>
-</div> -->
+</div>
+-->
 
 </div>
 
@@ -80,10 +82,10 @@ sudo ln -s /chemin/vers/openlibrary/backend /opt/lampp/htdocs/openlibrary
 
 1. Démarrez **Apache** et **MySQL** via le panneau de contrôle XAMPP
 
-   **Sous Windows :**
+   **Sous Windows :**  
    Ouvrez le **panneau de contrôle XAMPP**, puis cliquez sur **Start** à côté de **Apache** et **MySQL**.
 
-   **Sous Linux :**
+   **Sous Linux :**  
    Ouvrez un terminal et exécutez les commandes suivantes :
 
    ```bash
@@ -115,6 +117,7 @@ sudo ln -s /chemin/vers/openlibrary/backend /opt/lampp/htdocs/openlibrary
    ```
 
 2. Ouvrez [phpMyAdmin](http://localhost/phpmyadmin).
+
 3. Importez le fichier :
 
    ```
@@ -125,10 +128,10 @@ sudo ln -s /chemin/vers/openlibrary/backend /opt/lampp/htdocs/openlibrary
 
    ```php
    <?php
-     $host = "localhost";
-     $user = "root";
-     $pass = "";
-     $dbname = "openlibrary";
+   $host = "localhost";
+   $user = "root";
+   $pass = "";
+   $dbname = "openlibrary";
 
    // ...
    ?>
@@ -197,20 +200,20 @@ Le projet devrait se lancer sur :
 
      ```php
      <?php
-       // Exemple
-       $host = "<host_link>";
-       $user = "<user_name>";
-       $pass = "<password>";
-       $dbname = "openlibrary";
-        return [
-          'host' => '<host_link>',
-          'user' => '<user_name>',
-          'pass' => '<password>',
-          'dbname' => 'openlibrary',
-          'mode' => 'dev', // 'dev' ou 'prod'
-          'baseUrl_dev' => 'http://127.0.0.1/openlibrary/uploads/',
-          'baseUrl_prod' => 'https://ton-site.com/uploads/',
-        ];
+     // Exemple
+     $host = "<host_link>";
+     $user = "<user_name>";
+     $pass = "<password>";
+     $dbname = "openlibrary";
+     return [
+       'host' => '<host_link>',
+       'user' => '<user_name>',
+       'pass' => '<password>',
+       'dbname' => 'openlibrary',
+       'mode' => 'dev', // 'dev' ou 'prod'
+       'baseUrl_dev' => 'http://localhost/openlibrary/uploads/',
+       'baseUrl_prod' => 'https://ton-site.com/uploads/',
+     ];
      ?>
      ```
 
@@ -259,7 +262,95 @@ Le projet devrait se lancer sur :
 
 ---
 
-## 🧰 Structure de l’API
+## 🔐 Gestion des fichiers `.env` et `config.php`
+
+### 📄 1️⃣ Fichier `.env.php` (non versionné)
+
+Ce fichier contient **les variables sensibles** de ton backend : identifiants de base de données, URLs et mode d'environnement.
+
+📍 **Emplacement :**
+
+```
+backend/api/.env.php
+```
+
+🧱 **Exemple :**
+
+```php
+<?php
+return [
+  'host' => 'localhost',
+  'user' => 'root',
+  'pass' => '',
+  'dbname' => 'openlibrary',
+  'mode' => 'dev', // 'dev' ou 'prod'
+  'baseUrl_dev' => 'http://localhost/openlibrary/uploads/',
+  'baseUrl_prod' => 'https://ton-site.com/uploads/',
+];
+```
+
+⚠️ **Important :**
+
+- Ajoute cette ligne dans ton `.gitignore` :
+
+  ```
+  backend/api/.env.php
+  ```
+
+---
+
+### ⚙️ 2️⃣ Fichier `config.php`
+
+Ce fichier récupère les données du `.env.php` et initialise la connexion MySQL.
+
+📄 **Exemple :**
+
+```php
+<?php
+$env = include __DIR__ . '/.env.php';
+
+$conn = new mysqli(
+  $env['host'],
+  $env['user'],
+  $env['pass'],
+  $env['dbname']
+);
+
+if ($conn->connect_error) {
+    die(json_encode([
+        "success" => false,
+        "message" => "Erreur de connexion à la base de données"
+    ]));
+}
+?>
+```
+
+---
+
+### 🧭 3️⃣ Gestion automatique du mode `dev` / `prod`
+
+Tu peux utiliser une détection automatique dans tes fichiers API (dans ton fichier tu devras changer manuellement le mode) :
+
+```php
+$baseUrl = $env['mode'] === 'prod'
+  ? $env['baseUrl_prod']
+  : $env['baseUrl_dev'];
+```
+
+Ou mieux encore, une détection dynamique :
+
+```php
+$host = $_SERVER['HTTP_HOST'];
+if ($host === '127.0.0.1' || $host === 'localhost') {
+  $baseUrl = $env['baseUrl_dev'];
+} else {
+  $baseUrl = $env['baseUrl_prod'];
+}
+```
+
+---
+
+## 🧰 Structure de l'API
 
 Chaque fichier dans `backend/api/` représente une route :
 
@@ -283,4 +374,5 @@ Ce projet est libre sous licence MIT.
 Vous pouvez l'utiliser, le modifier et le redistribuer librement, à condition de conserver les mentions d'origine.
 
 ---
-💡 *Merci d’utiliser OpenLibrary — un projet conçu pour rendre le savoir accessible à tous !*
+
+💡 _Merci d'utiliser OpenLibrary — un projet conçu pour rendre le savoir accessible à tous !_

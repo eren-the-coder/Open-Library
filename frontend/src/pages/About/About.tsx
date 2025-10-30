@@ -19,7 +19,7 @@ const About = () => {
           informatique de l’UY1.
         </p>
 
-        <h2 className={styles.subtitle}>🎯 Pourquoi cette plateforme ?</h2>
+        <h2 className={styles.subtitle}>Pourquoi cette plateforme ?</h2>
 
         <p>
           Dans les groupes WhatsApp de la filière, beaucoup de documents utiles sont partagés.

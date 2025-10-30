@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTeachingUnit } from "../../context/TeachingUnitContext";
 import EmptyFeedMessage from '../../components/EmptyFeedMessage/EmptyFeedMessage';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+import { API_URL } from '../../config';
 
 interface Resource {
   id: number;
@@ -27,8 +28,7 @@ const Feed = () => {
   const { selectedUnit } = useTeachingUnit();
 
   useEffect(() => {
-    // Remplacer l'URL si ton serveur PHP est sur un autre port ou domaine
-    fetch("http://127.0.0.1/backend/api/getPosts.php")
+    fetch(`${API_URL}/getPosts.php`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

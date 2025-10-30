@@ -4,6 +4,7 @@ import { BsArrowRightShort } from 'react-icons/bs';
 import { useTeachingUnit } from "../../context/TeachingUnitContext";
 import { useNavigate } from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
+import { API_URL } from "../../config";
 
 interface Unit {
   id: number;
@@ -21,7 +22,8 @@ const TeachingUnits = () => {
   useEffect(() => {
     const fetchUnits = async () => {
       try {
-        const res = await fetch("http://127.0.0.1/backend/api/getTeachingUnits.php");
+        const res = await fetch(`${API_URL}/getTeachingUnits.php`);
+        
         const data = await res.json();
         if (data.success) {
           setUnits(data.units);

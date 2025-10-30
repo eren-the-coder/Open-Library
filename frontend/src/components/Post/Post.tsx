@@ -2,6 +2,7 @@ import styles from './Post.module.css';
 import { FaDownload } from 'react-icons/fa';
 import { HiMiniCalendarDateRange } from 'react-icons/hi2';
 import previewImg from '../../assets/pdf-illustration.png';
+import { API_URL } from '../../config';
 
 interface PostProps {
   title: string;
@@ -24,7 +25,7 @@ const Post = ({ title, description, date, type, hasPreview, hasDownload, fileUrl
       return;
     }
 
-    const downloadUrl = `http://127.0.0.1/backend/api/download.php?file=${encodeURIComponent(fileUrl.split('/').pop() || '')}`;
+    const downloadUrl = `${API_URL}/download.php?file=${encodeURIComponent(fileUrl.split('/').pop() || '')}`;
 
     // Ouvre le lien directement dans le navigateur (téléchargement auto)
     const link = document.createElement('a');

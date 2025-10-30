@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./AddPostForm.module.css";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import { API_URL } from "../../config";
 
 interface FormData {
   name: string;
@@ -33,7 +34,7 @@ const AddPostForm = () => {
   useEffect(() => {
     const fetchUnits = async () => {
       try {
-        const res = await fetch("http://127.0.0.1/backend/api/getTeachingUnits.php");
+        const res = await fetch(`${API_URL}/getTeachingUnits.php`);
         const data = await res.json();
         if (data.success) {
           setTeachingUnits(data.units);
@@ -149,7 +150,8 @@ const AddPostForm = () => {
     console.log("FormData envoyée :", Object.fromEntries(form.entries()));
 
     try {
-      const response = await fetch("http://127.0.0.1/backend/api/addPost.php", {
+      const response = await fetch("https://openlibrary.free.nf/api/addPost.php", {
+      // const response = await fetch("http://127.0.0.1/backend/api/addPost.php", {
         method: "POST",
         body: form,
       });

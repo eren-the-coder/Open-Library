@@ -37,7 +37,7 @@ Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
 <p>💻 <b>Desktop</b></p>
 </div>
 
-<div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
+<!-- <div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
 <img src="./frontend/previews/tablet.png" alt="Preview Tablet" style="width: 100%; border-radius: 10px;">
 <p>📗 <b>Tablette</b></p>
 </div>
@@ -45,7 +45,7 @@ Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
 <div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
 <img src="./frontend/previews/mobile.png" alt="Preview Mobile" style="width: 100%; border-radius: 10px;">
 <p>📱 <b>Mobile</b></p>
-</div>
+</div> -->
 
 </div>
 

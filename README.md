@@ -125,10 +125,10 @@ sudo ln -s /chemin/vers/openlibrary/backend /opt/lampp/htdocs/openlibrary
 
    ```php
    <?php
-   $host = "localhost";
-   $user = "root";
-   $pass = "";
-   $dbname = "openlibrary";
+     $host = "localhost";
+     $user = "root";
+     $pass = "";
+     $dbname = "openlibrary";
 
    // ...
    ?>

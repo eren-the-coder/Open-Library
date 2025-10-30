@@ -197,10 +197,10 @@ Le projet devrait se lancer sur :
 
      ```php
      <?php
-     $host = "<host_link>";
-     $user = "<user_name>";
-     $pass = "<password>";
-     $dbname = "openlibrary";
+       $host = "<host_link>";
+       $user = "<user_name>";
+       $pass = "<password>";
+       $dbname = "openlibrary";
      ?>
      ```
 

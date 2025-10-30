@@ -1,6 +1,6 @@
 # 📚 OpenLibrary
 
-OpenLibrary est une application web qui permet de gérer une bibliothèque en ligne.  
+OpenLibrary est une application web qui permet de gérer une bibliothèque en ligne pour étudiants.  
 Le projet est divisé en deux parties :
 
 - **Backend (PHP/MySQL)** — gère les données et l'API.

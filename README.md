@@ -263,8 +263,7 @@ Chaque fichier dans `backend/api/` représente une route :
 ## 👨‍💻 Auteur
 
 **Projet OpenLibrary**  
-Développé par _Eren MM_  
-Version : `1.0.0`
+Développé par _Eren MM_
 
 ---
 

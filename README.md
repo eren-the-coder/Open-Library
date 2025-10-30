@@ -26,9 +26,11 @@ Avant d'exécuter le projet, assurez-vous d'avoir :
 2. Le **frontend** interagit avec le backend via des **requêtes HTTP** (`fetch`).
 3. L'utilisateur peut télécharger et ajouter des ressources.
 
+---
+
 ## 🖼️ Aperçu du projet
 
-Voici un aperçu visuel de **OpenLibrary** :
+Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
 
 <div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 
@@ -37,7 +39,6 @@ Voici un aperçu visuel de **OpenLibrary** :
 <p>💻 <b>Desktop</b></p>
 </div>
 
-<!--
 <div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
 <img src="./frontend/previews/tablet.png" alt="Preview Tablet" style="width: 100%; border-radius: 10px;">
 <p>📗 <b>Tablette</b></p>
@@ -47,7 +48,6 @@ Voici un aperçu visuel de **OpenLibrary** :
 <img src="./frontend/previews/mobile.png" alt="Preview Mobile" style="width: 100%; border-radius: 10px;">
 <p>📱 <b>Mobile</b></p>
 </div>
--->
 
 </div>
 
@@ -85,17 +85,12 @@ sudo ln -s /chemin/vers/openlibrary/backend /opt/lampp/htdocs/openlibrary
    **Sous Windows :**  
    Ouvrez le **panneau de contrôle XAMPP**, puis cliquez sur **Start** à côté de **Apache** et **MySQL**.
 
-   **Sous Linux :**  
-   Ouvrez un terminal et exécutez les commandes suivantes :
+   **Sous Linux :**
 
    ```bash
    # Si XAMPP est installé dans /opt/lampp
    sudo /opt/lampp/lampp start
-   # Si votre installation de XAMPP est ailleurs, adaptez le chemin :
-   # exemple : sudo /usr/lampp/lampp start
    ```
-
-   Cela démarre **Apache**, **MySQL** et **ProFTPD** simultanément.
 
    Pour vérifier que tout fonctionne :
 
@@ -118,13 +113,9 @@ sudo ln -s /chemin/vers/openlibrary/backend /opt/lampp/htdocs/openlibrary
 
 2. Ouvrez [phpMyAdmin](http://localhost/phpmyadmin).
 
-3. Importez le fichier :
+3. Importez le fichier : `database/openlibrary.sql`
 
-   ```
-   database/openlibrary.sql
-   ```
-
-4. Dans `backend/api/config.php`, configurez vos identifiants de connexion à phpMyAdmin :
+4. Dans `backend/api/config.php`, configurez vos identifiants de connexion :
 
    ```php
    <?php
@@ -132,8 +123,6 @@ sudo ln -s /chemin/vers/openlibrary/backend /opt/lampp/htdocs/openlibrary
    $user = "root";
    $pass = "";
    $dbname = "openlibrary";
-
-   // ...
    ?>
    ```
 
@@ -162,6 +151,21 @@ Le projet devrait se lancer sur :
 
 ---
 
+## 🌍 Configuration de l'environnement de production
+
+Avant de mettre votre application en ligne, créez un fichier **`.env.production`** à la racine du dossier **frontend/**.
+
+Ce fichier doit contenir l'URL de votre API hébergée :
+
+```bash
+# Distant API URL
+VITE_API_URL=https://ton-site.com/api
+```
+
+> ⚙️ Ce fichier est utilisé automatiquement lors du build de production (`npm run build`) pour connecter l'application à l'API distante.
+
+---
+
 ## 🌐 Déploiement sur un hébergeur
 
 1. **Construisez votre frontend React pour la production :**
@@ -171,17 +175,13 @@ Le projet devrait se lancer sur :
    npm run build
    ```
 
-   Cela crée un dossier `dist/` (ou `build/` selon ta configuration) contenant la version optimisée de ton application React.
-
 2. **Intégrez le backend PHP dans le dossier de production :**
 
-   - Copiez **tout le contenu du dossier `backend/`** dans le dossier `dist/` généré par React :
+   ```bash
+   cp -r ../backend/* ./dist/
+   ```
 
-     ```bash
-     cp -r ../backend/* ./dist/
-     ```
-
-   **Exemple de structure finale :**
+   **Structure finale :**
 
    ```
    dist/
@@ -195,66 +195,28 @@ Le projet devrait se lancer sur :
 
 3. **Configurez la base de données distante :**
 
-   - Importez le fichier `openlibrary.sql` sur ta base distante
-   - Mets à jour les identifiants par ceux fournis par l'hébergeur dans ton fichier `dist/api/.env.php` :
+   - Importez `openlibrary.sql` sur votre base distante
+   - Modifiez les identifiants dans `dist/api/.env.php`
 
-     ```php
-     <?php
-     // Exemple
-     $host = "<host_link>";
-     $user = "<user_name>";
-     $pass = "<password>";
-     $dbname = "openlibrary";
-     return [
-       'host' => '<host_link>',
-       'user' => '<user_name>',
-       'pass' => '<password>',
-       'dbname' => 'openlibrary',
-       'mode' => 'dev', // 'dev' ou 'prod'
-       'baseUrl_dev' => 'http://localhost/openlibrary/uploads/',
-       'baseUrl_prod' => 'https://ton-site.com/uploads/',
-     ];
-     ?>
-     ```
-
-4. **Modifiez le fichier `.htaccess` dans le dossier `dist/`**
-
-   Ce fichier permet :
-
-   - à React de gérer correctement les routes
-   - de gérer les erreurs 404 côté client
-   - de protéger les fichiers et dossiers sensibles
-
-   Crée un fichier `.htaccess` dans `dist/` avec le contenu suivant :
+4. **Ajoutez un fichier `.htaccess` dans `dist/`**
 
    ```apache
-   # Active le moteur de réécriture
    RewriteEngine On
-
-   # Redirige toutes les requêtes vers index.html sauf celles qui correspondent à un fichier ou dossier existant
    RewriteCond %{REQUEST_FILENAME} !-f
    RewriteCond %{REQUEST_FILENAME} !-d
    RewriteRule ^ index.html [L]
 
-   # Empêche l'accès direct aux fichiers sensibles
    <FilesMatch "\.(env|sql|log|ini|sh|bat)$">
      Order allow,deny
      Deny from all
    </FilesMatch>
 
-   # Empêche l'accès direct au dossier includes
    RewriteRule ^includes/ - [F,L]
    ```
 
-5. **Uploadez le dossier `dist/` sur ton hébergeur web** (par FTP ou via le gestionnaire de fichiers de ton hébergeur).
+5. **Uploadez le dossier `dist/` sur votre hébergeur.**
 
-   - Connectez-vous à votre compte (FTP ou gestionnaire de fichiers).
-   - Supprimez les fichiers par défaut de l'hébergeur.
-   - Uploadez tout le contenu du dossier `dist/` à la racine de votre hébergement (`/htdocs` ou `/public_html` selon le cas).
-
-6. **Accédez à ton site en ligne** depuis ton nom de domaine ou l'URL fournie par l'hébergeur.
-
-   **Exemple :**
+6. **Accédez à votre site en ligne :**
 
    ```
    https://ton-site.com
@@ -266,7 +228,7 @@ Le projet devrait se lancer sur :
 
 ### 📄 1️⃣ Fichier `.env.php` (non versionné)
 
-Ce fichier contient **les variables sensibles** de ton backend : identifiants de base de données, URLs et mode d'environnement.
+Contient les variables sensibles de ton backend : identifiants de base de données, URLs et mode d'environnement.
 
 📍 **Emplacement :**
 
@@ -283,27 +245,24 @@ return [
   'user' => 'root',
   'pass' => '',
   'dbname' => 'openlibrary',
-  'mode' => 'dev', // 'dev' ou 'prod'
+  'mode' => 'dev',
   'baseUrl_dev' => 'http://localhost/openlibrary/uploads/',
   'baseUrl_prod' => 'https://ton-site.com/uploads/',
 ];
 ```
 
-⚠️ **Important :**
+⚠️ **Important :**  
+Ajoute cette ligne dans ton `.gitignore` :
 
-- Ajoute cette ligne dans ton `.gitignore` :
-
-  ```
-  backend/api/.env.php
-  ```
+```
+backend/api/.env.php
+```
 
 ---
 
 ### ⚙️ 2️⃣ Fichier `config.php`
 
-Ce fichier récupère les données du `.env.php` et initialise la connexion MySQL.
-
-📄 **Exemple :**
+Charge les données du `.env.php` et initialise la connexion MySQL.
 
 ```php
 <?php
@@ -329,16 +288,6 @@ if ($conn->connect_error) {
 
 ### 🧭 3️⃣ Gestion automatique du mode `dev` / `prod`
 
-Tu peux utiliser une détection automatique dans tes fichiers API (dans ton fichier tu devras changer manuellement le mode) :
-
-```php
-$baseUrl = $env['mode'] === 'prod'
-  ? $env['baseUrl_prod']
-  : $env['baseUrl_dev'];
-```
-
-Ou mieux encore, une détection dynamique :
-
 ```php
 $host = $_SERVER['HTTP_HOST'];
 if ($host === '127.0.0.1' || $host === 'localhost') {
@@ -356,8 +305,8 @@ Chaque fichier dans `backend/api/` représente une route :
 
 - `getPosts.php` → renvoie la liste des ressources
 - `addPost.php` → ajoute un livre (POST)
-- `getTeachingUnit.php` → renvoie la liste des Unités d'enseignement
-- `download.php` → Télécharge une ressource
+- `getTeachingUnit.php` → renvoie la liste des unités d'enseignement
+- `download.php` → télécharge une ressource
 
 ---
 

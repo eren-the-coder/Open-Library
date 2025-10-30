@@ -193,7 +193,7 @@ Le projet devrait se lancer sur :
 3. **Configurez la base de données distante :**
 
    - Importez le fichier `openlibrary.sql` sur ta base distante
-   - Mets à jour les identifiants dans `dist/api/config.php` :
+   - Mets à jour les identifiants par ceux fournis par l'hébergeur dans ton fichier `dist/api/.env.php` :
 
      ```php
      <?php

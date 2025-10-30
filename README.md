@@ -28,7 +28,7 @@ Avant d'exécuter le projet, assurez-vous d'avoir :
 
 ## 🖼️ Aperçu du projet
 
-Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
+Voici un aperçu visuel de **OpenLibrary** :
 
 <div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
 

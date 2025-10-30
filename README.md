@@ -197,10 +197,20 @@ Le projet devrait se lancer sur :
 
      ```php
      <?php
+       // Exemple
        $host = "<host_link>";
        $user = "<user_name>";
        $pass = "<password>";
        $dbname = "openlibrary";
+        return [
+          'host' => '<host_link>',
+          'user' => '<user_name>',
+          'pass' => '<password>',
+          'dbname' => 'openlibrary',
+          'mode' => 'dev', // 'dev' ou 'prod'
+          'baseUrl_dev' => 'http://127.0.0.1/openlibrary/uploads/',
+          'baseUrl_prod' => 'https://ton-site.com/uploads/',
+        ];
      ?>
      ```
 

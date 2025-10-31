@@ -44,18 +44,6 @@ CREATE TABLE `ressources` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `ressources`
---
-
-INSERT INTO `ressources` (`id`, `name`, `description`, `type`, `teachingUnit`, `authorId`, `file`, `createdAt`, `updatedAt`, `validated`, `views`, `downloads`) VALUES
-(18, 'Fiche de TD info 121', 'Beaucoup d\'exercices ', 'td', 'INF121', 'user1', '1760909632_TD 1 Info 121.pdf', '2025-10-19 21:33:52', '2025-10-19 21:42:32', 0, 0, 0),
-(19, 'Cours Info 131', 'Année académique: 2025/2026', 'cours', 'INF131', 'user1', '1760909904_INF131_L1_001 DADA 2025 - 2026.pdf', '2025-10-19 21:38:24', '2025-10-19 21:38:24', 0, 0, 0),
-(21, 'CC & SN Math 131', 'Contrôle continu et Session Normale Math 131\r\nAnnée académique: 2024/2025', 'exam', 'MAT131', 'user1', '1760910409_CC-SN-TD_Mat131_1732120020.pdf', '2025-10-19 21:46:49', '2025-10-19 21:46:49', 0, 0, 0),
-(22, 'Cours MAT131', 'ANALYSE DE LA DROITE REEL', 'cours', 'MAT131', 'user1', '1761021061_math131.pdf', '2025-10-21 04:31:01', '2025-10-21 04:35:57', 0, 0, 0);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `teachingUnit`
 --
 

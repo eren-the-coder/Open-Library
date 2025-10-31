@@ -1,4 +1,4 @@
-# 📚 OpenLibrary
+# OpenLibrary
 
 OpenLibrary est une application web qui permet de gérer une bibliothèque en ligne pour étudiants.  
 Le projet est divisé en deux parties :
@@ -8,7 +8,7 @@ Le projet est divisé en deux parties :
 
 ---
 
-## ⚙️ Prérequis
+## Prérequis
 
 Avant d'exécuter le projet, assurez-vous d'avoir :
 
@@ -20,7 +20,7 @@ Avant d'exécuter le projet, assurez-vous d'avoir :
 
 ---
 
-## 🧠 Fonctionnement général
+## Fonctionnement général
 
 1. Le **backend PHP** communique avec la **base de données MySQL**.
 2. Le **frontend** interagit avec le backend via des **requêtes HTTP** (`fetch`).
@@ -28,7 +28,7 @@ Avant d'exécuter le projet, assurez-vous d'avoir :
 
 ---
 
-## 🖼️ Aperçu du projet
+## Aperçu du projet
 
 Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
 
@@ -36,7 +36,7 @@ Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
 
 <div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
 <img src="./frontend/previews/desktop.png" alt="Preview Desktop" style="width: 100%; border-radius: 10px;">
-<p>💻 <b>Desktop</b></p>
+<p><b>Desktop</b></p>
 </div>
 
 <!-- <div style="flex: 1 1 250px; max-width: 300px; text-align: center;">
@@ -53,7 +53,7 @@ Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
 
 ---
 
-## 🖥️ Installation et exécution
+## Installation et exécution
 
 ### 1️⃣ Cloner le projet
 
@@ -146,12 +146,11 @@ npm install
 npm run dev
 ```
 
-Le projet devrait se lancer sur :  
-👉 [http://localhost:3000](http://localhost:3000)
+Le projet devrait se lancer sur : [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🌍 Configuration de l'environnement de production
+## Configuration de l'environnement de production
 
 Avant de mettre votre application en ligne, créez un fichier **`.env.production`** à la racine du dossier **frontend/**.
 
@@ -162,11 +161,11 @@ Ce fichier doit contenir l'URL de votre API hébergée :
 VITE_API_URL=https://ton-site.com/api
 ```
 
-> ⚙️ Ce fichier est utilisé automatiquement lors du build de production (`npm run build`) pour connecter l'application à l'API distante.
+> Ce fichier est utilisé automatiquement lors du build de production (`npm run build`) pour connecter l'application à l'API distante.
 
 ---
 
-## 🌐 Déploiement sur un hébergeur
+## Déploiement sur un hébergeur
 
 1. **Construisez votre frontend React pour la production :**
 
@@ -224,19 +223,19 @@ VITE_API_URL=https://ton-site.com/api
 
 ---
 
-## 🔐 Gestion des fichiers `.env` et `config.php`
+## Gestion des fichiers `.env` et `config.php`
 
-### 📄 1️⃣ Fichier `.env.php` (non versionné)
+### 1️⃣ Fichier `.env.php` (non versionné)
 
 Contient les variables sensibles de ton backend : identifiants de base de données, URLs et mode d'environnement.
 
-📍 **Emplacement :**
+**Emplacement :**
 
 ```
 backend/api/.env.php
 ```
 
-🧱 **Exemple :**
+**Exemple :**
 
 ```php
 <?php
@@ -260,7 +259,7 @@ backend/api/.env.php
 
 ---
 
-### ⚙️ 2️⃣ Fichier `config.php`
+### 2️⃣ Fichier `config.php`
 
 Charge les données du `.env.php` et initialise la connexion MySQL.
 
@@ -286,7 +285,7 @@ if ($conn->connect_error) {
 
 ---
 
-### 🧭 3️⃣ Gestion automatique du mode `dev` / `prod`
+### 3️⃣ Gestion automatique du mode `dev` / `prod`
 
 ```php
 $host = $_SERVER['HTTP_HOST'];
@@ -299,7 +298,7 @@ if ($host === '127.0.0.1' || $host === 'localhost') {
 
 ---
 
-## 🧰 Structure de l'API
+## Structure de l'API
 
 Chaque fichier dans `backend/api/` représente une route :
 
@@ -310,18 +309,18 @@ Chaque fichier dans `backend/api/` représente une route :
 
 ---
 
-## 👨‍💻 Auteur
+## Auteur
 
 **Projet OpenLibrary**  
 Développé par _Eren MM_
 
 ---
 
-## ⚖️ Licence
+## Licence
 
 Ce projet est libre sous licence MIT.  
 Vous pouvez l'utiliser, le modifier et le redistribuer librement, à condition de conserver les mentions d'origine.
 
 ---
 
-💡 _Merci d'utiliser OpenLibrary — un projet conçu pour rendre le savoir accessible à tous !_
+_Merci d'utiliser OpenLibrary — un projet conçu pour rendre le savoir accessible à tous !_

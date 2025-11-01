@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./AddPostForm.module.css";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { API_URL } from "../../config";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 interface FormData {
   name: string;
@@ -31,7 +29,7 @@ const AddPostForm = () => {
 
   const [fileName, setFileName] = useState("");
   const [teachingUnits, setTeachingUnits] = useState<Unit[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUnits = async () => {
@@ -47,9 +45,7 @@ const AddPostForm = () => {
       } catch (err) {
         console.error("Erreur fetch :", err);
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 10000);
+        setIsLoading(false);
       }
     };
 
@@ -198,7 +194,7 @@ const AddPostForm = () => {
           >
             <option value="">Sélectionnez une UE</option>
 
-            {loading
+            {isLoading
               ? (
                 <option disabled>Chargement...</option>
               ) : (

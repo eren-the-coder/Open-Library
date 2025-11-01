@@ -55,7 +55,7 @@ Voici un aperçu visuel de **OpenLibrary** sur différents appareils :
 
 ## Installation et exécution
 
-### 1️⃣ Cloner le projet
+### 1. Cloner le projet
 
 ```bash
 git clone https://github.com/eren-the-coder/uy1_open_library.git
@@ -64,7 +64,7 @@ cd uy1_open_library
 
 ---
 
-### 2️⃣ Configuration du backend
+### 2. Configuration du backend
 
 #### ➤ Étape 1 : Créer le lien symbolique vers `htdocs`
 
@@ -136,7 +136,7 @@ http://localhost/openlibrary/api/getPosts.php
 
 ---
 
-### 3️⃣ Configuration du frontend
+### 3. Configuration du frontend
 
 Tapez les commandes suivantes pour démarrer le serveur de développement du **frontend React** :
 
@@ -225,7 +225,7 @@ VITE_API_URL=https://ton-site.com/api
 
 ## Gestion des fichiers `.env` et `config.php`
 
-### 1️⃣ Fichier `.env.php` (non versionné)
+### 1. Fichier `.env.php` (non versionné)
 
 Contient les variables sensibles de ton backend : identifiants de base de données, URLs et mode d'environnement.
 
@@ -259,7 +259,7 @@ backend/api/.env.php
 
 ---
 
-### 2️⃣ Fichier `config.php`
+### 2. Fichier `config.php`
 
 Charge les données du `.env.php` et initialise la connexion MySQL.
 
@@ -285,7 +285,7 @@ if ($conn->connect_error) {
 
 ---
 
-### 3️⃣ Gestion automatique du mode `dev` / `prod`
+### 3. Gestion automatique du mode `dev` / `prod`
 
 ```php
 $host = $_SERVER['HTTP_HOST'];

@@ -1,9 +1,10 @@
+import type React from 'react';
 import styles from './LoadingIndicator.module.css';
 
 interface LoadingIndicatorProps {
   message?: string;
   size?: number;
-  containerStyle?: any;
+  containerStyle?: React.CSSProperties;
 }
 
 const LoadingIndicator = ({ message = "Chargement...", size = 40, containerStyle }: LoadingIndicatorProps) => {

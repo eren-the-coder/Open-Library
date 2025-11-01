@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import styles from "./AddPostForm.module.css";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { API_URL } from "../../config";
+import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 interface FormData {
   name: string;
@@ -26,8 +28,8 @@ const AddPostForm = () => {
     file: null,
     teachingUnit: "",
   });
-  const [fileName, setFileName] = useState("");
 
+  const [fileName, setFileName] = useState("");
   const [teachingUnits, setTeachingUnits] = useState<Unit[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,6 +38,7 @@ const AddPostForm = () => {
       try {
         const res = await fetch(`${API_URL}/getTeachingUnits.php`);
         const data = await res.json();
+
         if (data.success) {
           setTeachingUnits(data.units);
         } else {
@@ -44,43 +47,26 @@ const AddPostForm = () => {
       } catch (err) {
         console.error("Erreur fetch :", err);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 10000);
       }
     };
+
     fetchUnits();
   }, []);
 
-  if (loading) return (
-    <LoadingIndicator
-      message='Chargement des ressources...'
-      containerStyle={{
-        flex: 2,
-      }}
-    />
-  );
-
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-
-    if (name === "type") {
-      // Reset complet si type change
-      setFormData({
-        name: "",
-        description: "",
-        type: value,
-        file: null,
-        teachingUnit: "",
-      });
-      setFileName("");
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };  
-
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -126,15 +112,12 @@ const AddPostForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !formData.teachingUnit &&
-      !["comm_doc", "comm_text"].includes(formData.type)
-    ) {
+    if (!formData.teachingUnit) {
       alert("Veuillez sélectionner une unité d’enseignement.");
       return;
     }
 
-    if (formData.type !== "comm_text" && !formData.file) {
+    if (!formData.file) {
       alert("Veuillez sélectionner un fichier avant de soumettre.");
       return;
     }
@@ -147,8 +130,6 @@ const AddPostForm = () => {
     form.append("authorId", "user1");
     if (formData.file) form.append("file", formData.file);
 
-    console.log("FormData envoyée :", Object.fromEntries(form.entries()));
-
     try {
       const response = await fetch(`${API_URL}/addPost.php`, {
         method: "POST",
@@ -156,7 +137,7 @@ const AddPostForm = () => {
       });
 
       const data = await response.json();
-      console.log("Réponse complète du serveur:", data);
+      console.log("Réponse serveur:", data);
 
       if (data.success) {
         alert("Post ajouté avec succès !");
@@ -170,18 +151,16 @@ const AddPostForm = () => {
     }
   };
 
-  const showFileField =
-    formData.type &&
-    !["", "comm_text"].includes(formData.type);
-  const showTeachingUnitField =
-    formData.type &&
-    !["comm_doc", "comm_text"].includes(formData.type);
-
   return (
     <section className={styles.addPostForm}>
       <h2 className={styles.title}>Ajouter une ressource</h2>
-      <form method="POST" encType="multipart/form-data" className={styles.form} onSubmit={handleSubmit}>
 
+      <form
+        method="POST"
+        encType="multipart/form-data"
+        className={styles.form}
+        onSubmit={handleSubmit}
+      >
         {/* Type de post */}
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="doc-type">
@@ -200,34 +179,39 @@ const AddPostForm = () => {
             <option value="td">TD</option>
             <option value="tp">TP</option>
             <option value="exam">Sujet d'examen</option>
-            <option value="comm_text">Communiqué textuel</option>
-            <option value="comm_doc">Communiqué par document (PDF)</option>
           </select>
         </div>
 
-        {/* Unité d'enseignement */}
-        {showTeachingUnitField && (
-          <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="teaching-unit">
-              Unité d’enseignement
-            </label>
-            <select
-              className={styles.input}
-              id="teaching-unit"
-              name="teachingUnit"
-              value={formData.teachingUnit}
-              onChange={handleInputChange}
-              required={formData.type !== "comm_doc" && formData.type !== "comm_text"}
-            >
-              <option value="">Sélectionnez une UE</option>
-              {teachingUnits.map((ue) => (
-                <option key={ue.code} value={ue.code}>
-                  {ue.code} — {ue.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        {/* Unité d’enseignement */}
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="teaching-unit">
+            Unité d’enseignement
+          </label>
+
+          <select
+            className={styles.input}
+            id="teaching-unit"
+            name="teachingUnit"
+            value={formData.teachingUnit}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Sélectionnez une UE</option>
+
+            {loading
+              ? (
+                <option disabled>Chargement...</option>
+              ) : (
+                teachingUnits.map((ue) => (
+                  <option key={ue.code} value={ue.code}>
+                    {ue.code} — {ue.name}
+                  </option>
+                )
+              )    
+            )}
+          </select>
+        </div>
+
 
         {/* Nom du post */}
         <div className={styles.formGroup}>
@@ -241,7 +225,7 @@ const AddPostForm = () => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            placeholder="Ex: Cours d'algorithmique, Communiqué x, etc"
+            placeholder="Ex: Cours d'algorithmique, Sujet de TP, etc"
             required
           />
         </div>
@@ -262,27 +246,28 @@ const AddPostForm = () => {
           />
         </div>
 
-        {/* Champ fichier (visible uniquement pour certains types) */}
-        {showFileField && (
-          <div className={styles.fileGroup}>
-            <label className={styles.label}>Fichier</label>
-            <div
-              className={styles.fileInput}
-              onClick={() => document.getElementById("doc-file")?.click()}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <span>{fileName || "Glissez-déposez ou cliquez pour sélectionner"}</span>
-              <input
-                type="file"
-                id="doc-file"
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-            </div>
+        {/* Champ fichier */}
+        <div className={styles.fileGroup}>
+          <label className={styles.label}>Fichier</label>
+          <div
+            className={styles.fileInput}
+            onClick={() => document.getElementById("doc-file")?.click()}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            <span>
+              {fileName || "Glissez-déposez ou cliquez pour sélectionner"}
+            </span>
+            <input
+              type="file"
+              id="doc-file"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+              required
+            />
           </div>
-        )}
+        </div>
 
         {/* Actions */}
         <div className={styles.formActions}>

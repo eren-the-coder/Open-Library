@@ -3,8 +3,8 @@ import styles from './Feed.module.css';
 import { useState, useEffect } from 'react';
 import { useTeachingUnit } from "../../context/TeachingUnitContext";
 import EmptyFeedMessage from '../../components/EmptyFeedMessage/EmptyFeedMessage';
-import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 import { API_URL } from '../../config';
+import FeedSkeleton from './FeedSkeleton/FeedSkeleton';
 
 interface Resource {
   id: number;
@@ -45,12 +45,7 @@ const Feed = () => {
   }, []);
 
   if (loading) return (
-    <LoadingIndicator
-      message='Chargement des ressources...'
-      containerStyle={{
-        flex: 2,
-      }}
-    />
+    <FeedSkeleton />
   );
 
   const filteredPosts = selectedUnit === "Tous" 

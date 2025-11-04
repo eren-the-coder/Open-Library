@@ -4,7 +4,7 @@ OpenLibrary est une application web qui permet de gérer une bibliothèque en li
 Le projet est divisé en deux parties :
 
 - **Backend (PHP/MySQL)** — gère les données et l'API.
-- **Frontend (React ou autre framework)** — gère l'interface utilisateur.
+- **Frontend (React)** — gère l'interface utilisateur.
 
 ---
 
